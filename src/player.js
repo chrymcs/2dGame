@@ -6,7 +6,7 @@ export class Player {
         this.width = 100;
         this.height = 91.3;
         this.x = 0;
-        this.y = this.game.height - this.height;
+        this.y = this.game.height - this.height - this.game.groundMargin;
         this.image = document.getElementById('player');
         
         this.frameX = 0; // index of horizontal frame
@@ -44,7 +44,7 @@ export class Player {
         this.y += this.vy;
         if (!this.onGround()) this.vy += this.weight;
         else this.vy = 0;
-        
+
         // sprite animation
 
         // below code will result in very high speed movement, losing frames.
@@ -68,7 +68,7 @@ export class Player {
             this.x, this.y, this.width, this.height);
     }
     onGround(){
-        return this.y >= this.game.height - this.height;
+        return this.y >= this.game.height - this.height - this.game.groundMargin;
     }
     setState(state) {
         this.currentState = this.states[state];
