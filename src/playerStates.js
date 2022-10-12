@@ -24,7 +24,7 @@ export class Sitting extends State {
     handleInput(input) {
         // otan kathetai anidra mono sta keys: a, d. ta opoia ton sikwnoun
         if (input.includes('a') || input.includes('d')) {
-            this.player.setState(states.RUNNING);
+            this.player.setState(states.RUNNING, 1);
         }
     }
 }
@@ -42,10 +42,10 @@ export class Running extends State {
     handleInput(input) {
         // otan kathetai anidra mono sta keys: a, d. ta opoia ton sikwnoun
         if (input.includes('w')) {
-            this.player.setState(states.JUMPING);
+            this.player.setState(states.JUMPING, 1);
         }
         else if (input.includes('s')) {
-            this.player.setState(states.SITTING);
+            this.player.setState(states.SITTING, 0);
         }
     }
 }
@@ -63,7 +63,7 @@ export class Jumping extends State {
     }
     handleInput(input) {
         if (this.player.vy > this.player.weight) {
-            this.player.setState(states.FALLING);
+            this.player.setState(states.FALLING, 1);
         }
     }
 }
@@ -80,7 +80,7 @@ export class Falling extends State {
     }
     handleInput(input) {
         if (this.player.onGround()) {
-            this.player.setState(states.RUNNING);
+            this.player.setState(states.RUNNING, 1);
         }
     }
 }
