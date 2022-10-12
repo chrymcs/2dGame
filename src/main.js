@@ -15,8 +15,8 @@ window.addEventListener('load',function(){
             this.player = new Player(this);
             this.input = new InputHandler();
         }
-        update(){
-            this.player.update(this.input.keys);
+        update(deltaTime){
+            this.player.update(this.input.keys, deltaTime);
         }
         draw(context){
             this.player.draw(context);
@@ -26,12 +26,21 @@ window.addEventListener('load',function(){
     const game = new Game(canvas.width, canvas.height);
     console.log(game);
 
-    function animate() {
+    let lastTime = 0; // holds the value of timestamp from the previous loop 
+
+    function animate(timeStamp) {
+        const deltaTime = timeStamp - lastTime; // how long each frame stays on the screen before it gets redrawn
+        lastTime = timeStamp;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        game.update();
+        game.update(deltaTime);
         game.draw(ctx);
         requestAnimationFrame(animate);
     }
-    animate();
+    /* timeStamp gets auto-generated only when it's called
+    by requestAnimationFrame on line 37.
+    So, for the 1st initial call of the animate function,
+    i have to pass it some value for timestamp.
+    */
+    animate(0);
     
 });
