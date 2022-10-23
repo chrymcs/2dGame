@@ -49,3 +49,51 @@ export class FlyingEnemy extends Enemy {
         this.y += Math.sin(this.angle);
     }
 }
+
+export class GroundEnemy extends Enemy {
+    constructor(game) {
+        super();
+        this.game = game;
+        this.width = 60;
+        this.height = 87;
+        this.x = this.game.width;
+        this.y = this.game.height - this.height - this.game.groundMargin;
+        this.speedX = 0;
+        this.speedY = 0;
+        this.maxFrame = 1;
+        this.image = document.getElementById('enemyPlant');
+    }
+}
+
+export class ClimbingEnemy extends Enemy {
+    constructor(game) {
+        super();
+        this.game = game;
+        this.width = 120;
+        this.height = 144;
+        this.x = this.game.width;
+        this.y = Math.random() * this.game.height * 0.5;
+        this.speedX = 0;
+        this.speedY = Math.random() > 0.5 ? 1 : -1;
+        this.maxFrame = 5;
+        this.image = document.getElementById('bigSpider');
+    }
+    update(deltaTime) {
+        super.update(deltaTime);
+        // when you reach the ground, bounce and move up
+        if (this.y > this.game.height - this.height - this.game.groundMargin) {
+            this.speedY *= -1;
+        }
+        // when you climb off screen, remove from array
+        if (this.y < -this.height) {
+            this.markedForDeletion = true;
+        }
+    }
+    draw(context) {
+        super.draw(context);
+        context.beginPath();
+        context.moveTo(this.x + this.width/2,0);
+        context.lineTo(this.x + this.width/2,this.y+50);
+        context.stroke();
+    }
+}
